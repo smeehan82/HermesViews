@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
 
 import DashboardComponent from './Dashboard/dashboard.component';
-import ContentTypesComponent from './Content/content-types.component';
+import ContentTypeListComponent from './Content/content-type-list.component';
 import ContentTypeDetailsComponent from './Content/content-type-details.component';
-import TaxonomyComponent from './Taxonomy/taxonomy.component';
-import PageComponent from './Page/page.component';
-import UsersComponent from './Users/users.component';
+import TaxonomyListComponent from './Taxonomy/taxonomy-list.component';
+import TaxonomyDetailsComponent from './Taxonomy/taxonomy-details.component';
+import PageListComponent from './Page/page-list.component';
+import PageDetailsComponent from './Page/page-details.component';
+import UserListComponent from './Users/user-list.component';
+import UserDetailsComponent from './Users/user-details.component';
 import MyAccountComponent from './MyAccount/my-account.component';
 import SystemSettingsComponent from './SystemSettings/system-settings.component';
 
@@ -40,7 +43,7 @@ import SystemSettingsComponent from './SystemSettings/system-settings.component'
   {
     path: '/content-types',
     name: 'ContentTypes',
-    component: ContentTypesComponent,
+    component: ContentTypeListComponent,
     useAsDefault: false
   },
   {
@@ -52,19 +55,37 @@ import SystemSettingsComponent from './SystemSettings/system-settings.component'
   {
     path: '/taxonomy',
     name: 'Taxonomy',
-    component: TaxonomyComponent,
+    component: TaxonomyListComponent,
+    useAsDefault: false
+  },
+  {
+    path: '/taxonomy/:id',
+    name: 'TaxonomyDetails',
+    component: TaxonomyDetailsComponent,
     useAsDefault: false
   },
   {
     path: '/pages',
     name: 'Pages',
-    component: PageComponent,
+    component: PageListComponent,
+    useAsDefault: false
+  },
+  {
+    path: '/pages/:id',
+    name: 'PageDetails',
+    component: PageDetailsComponent,
     useAsDefault: false
   },
   {
     path: '/users',
     name: 'Users',
-    component: UsersComponent,
+    component: UserListComponent,
+    useAsDefault: false
+  },
+  {
+    path: '/users/:id',
+    name: 'UserDetails',
+    component: UserDetailsComponent,
     useAsDefault: false
   },
   {
