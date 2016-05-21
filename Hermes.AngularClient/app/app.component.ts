@@ -3,7 +3,7 @@ import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/route
 
 import DashboardComponent from './Dashboard/dashboard.component';
 import ContentTypesComponent from './Content/content-types.component';
-import ContentTypesDetailsComponent from './Content/content-types-details.component';
+import ContentTypeDetailsComponent from './Content/content-type-details.component';
 import TaxonomyComponent from './Taxonomy/taxonomy.component';
 import PageComponent from './Page/page.component';
 import UsersComponent from './Users/users.component';
@@ -46,7 +46,7 @@ import SystemSettingsComponent from './SystemSettings/system-settings.component'
   {
     path: '/content-types/:id',
     name: 'ContentTypeDetails',
-    component: ContentTypesDetailsComponent,
+    component: ContentTypeDetailsComponent,
     useAsDefault: false
   },
   {

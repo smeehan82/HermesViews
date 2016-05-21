@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
-import ContentTypes from './content-types';
+import ContentTypes from './content-type';
 import ContentTypesService from './content-types.service';
 import CONTENTTYPES from './content-types.service';
 
 @Component({
-  selector: 'contentType-detail',
+  selector: 'content-type-detail',
   template:`
   <div *ngIf="contentType">
     <h2>{{contentType.name}} details!</h2>
@@ -17,15 +17,12 @@ import CONTENTTYPES from './content-types.service';
     <div>
       <label>name: </label>{{contentType.name}}
     </div>
-    <div>
-      <button (click)="gotoContent(item)"> Content </button>
-    </div>
   </div>
 `,
   providers: [ContentTypesService]
 })
 
-export default class ContentTypesDetailsComponent implements OnInit {
+export default class ContentTypeDetailsComponent implements OnInit {
   contentType: ContentTypes;
 
   constructor(

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import ContentTypes from './content-types';
-import Content from './content';
+import ContentType from './content-type';
 
 @Injectable()
 export default class ContentTypesService {
@@ -11,7 +10,7 @@ export default class ContentTypesService {
   
   // See the "Take it slow" appendix
   getContentTypesSlowly() {
-    return new Promise<ContentTypes[]>(resolve =>
+    return new Promise<ContentType[]>(resolve =>
       setTimeout(()=>resolve(CONTENTTYPES), 2000) // 2 seconds
     );
   }
@@ -23,7 +22,7 @@ export default class ContentTypesService {
   }
 }
 
-export var CONTENTTYPES: ContentTypes[] = [
+export var CONTENTTYPES: ContentType[] = [
 	{"id": 11, "name": "Blogs"},
 	{"id": 12, "name": "Quotes"},
 	{"id": 13, "name": "Musical Instruments"},

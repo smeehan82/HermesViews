@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
 
-import ContentTypes from './content-types';
+import ContentType from './content-type';
 import ContentTypesService from './content-types.service';
-import CONTENTTYPES from './content-types.service';
 
 @Component({
-  selector: 'contentType',
+  selector: 'content-type-list',
   template:`
   <div class="grid grid-pad">
     <h2>Content Types Available.</h2>
   </div>
-  <div class="contentType">
+  <div class="content-types">
     <div *ngFor="let item of contentTypes">
       <button (click)="gotoDetail(item)"> {{item.name}} </button>
     </div>
@@ -20,12 +19,12 @@ import CONTENTTYPES from './content-types.service';
   providers: [ContentTypesService]
 })
 
-export default class ContentTypesComponent {
-  contentTypes: ContentTypes[];
+export default class ContentTypeListComponent {
+  contentTypes: ContentType[];
 
   constructor(
-    private router: Router,
-    private contentTypesService: ContentTypesService) { }
+    private contentTypesService: ContentTypesService,
+    private router: Router) { }
 
   getContentTypes() {
     this.contentTypesService.getContentTypes().then(contentTypes => this.contentTypes = contentTypes);
@@ -35,13 +34,8 @@ export default class ContentTypesComponent {
     this.getContentTypes();
   }
   
-  gotoDetail(contentTypes: ContentTypes) {
-    let link = ['ContentTypeDetails', { id: contentTypes.id }];
-    this.router.navigate(link);
-  }
-  
-  gotoContent(contentTypes: ContentTypes) {
-    let link = ['Content', { name: contentTypes.name }];
+  gotoDetail(contentType: ContentType) {
+    let link = ['ContentTypeDetails', { id: contentType.id }];
     this.router.navigate(link);
   }
 }
