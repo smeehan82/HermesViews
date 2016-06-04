@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import User from './user';
 
 @Injectable()
-export default class UserService {
+export class UserService {
   getUsers() {
     return Promise.resolve(USERS);
   }

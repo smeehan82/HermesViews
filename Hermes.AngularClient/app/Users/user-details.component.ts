@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouteParams } from '@angular/router-deprecated';
+import { OnActivate, Router, RouteSegment } from '@angular/router';
 
 import User from './user';
-import UserService from './user.service';
+import { UserService } from './user.service';
 
 @Component({
-  selector: 'user-details',
   template:`
   <div *ngIf="user">
     <h2>{{user.name}} details!</h2>
@@ -18,24 +17,36 @@ import UserService from './user.service';
     </div>
   </div>
 `,
-  providers: [UserService]
 })
 
-export default class PageDetailsComponent implements OnInit {
+export default class PageDetailsComponent implements OnActivate {
   user: User;
+  private curSegment: RouteSegment;
 
   constructor(
     private userService: UserService,
-    private routeParams: RouteParams) {
-  }
+    private router: Router
+    ) { }
 
-  ngOnInit() {
-    let id =+ this.routeParams.get('id');
-    this.userService.getUser(id)
-      .then(user => this.user = user);
+  routerOnActivate(curr: RouteSegment) {
+    this.curSegment = curr;
+
+    let id = +curr.getParam('id');
+    this.userService.getUser(id).then(user => {
+      if (user) {
+        this.user = user;
+      } else { // id not found
+        this.gotoUsers();
+      }
+    });
+  }
+  
+  gotoUsers() {
+    // Relative link
+    this.router.navigate(['../'], this.curSegment);
   }
 
   goBack() {
-    window.history.back();
+    this.gotoUsers();
   }
 }

@@ -1,41 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { OnActivate, Router, RouteSegment, RouteTree } from '@angular/router';
 
 import User from './user';
-import UserService from './user.service';
+import { UserService } from './user.service';
 
 @Component({
-  selector: 'user-list',
   template: `
-  <div class="grid grid-pad">
-    <h2>Users Available.</h2>
-  </div>
   <div class="user-list">
     <div *ngFor="let item of users">
       <button (click)="gotoDetail(item)"> {{item.name}} </button>
     </div>
   </div>
 `,
-  providers: [UserService]
 })
 
-export default class UserListComponent {
+export default class UserListComponent implements OnActivate {
   users: User[];
+  private currSegment: RouteSegment;
 
   constructor(
     private userService: UserService,
     private router: Router) { }
 
-  getUsers() {
+  routerOnActivate(curr: RouteSegment, prev: RouteSegment, currTree: RouteTree) {
+    this.currSegment = curr;
     this.userService.getUsers().then(users => this.users = users);
-  }
-
-  ngOnInit() {
-    this.getUsers();
   }
   
   gotoDetail(user: User) {
-    let link = ['UserDetails', { id: user.id }];
-    this.router.navigate(link);
+    this.router.navigate([`./${user.id}`], this.currSegment);
   }
 }
