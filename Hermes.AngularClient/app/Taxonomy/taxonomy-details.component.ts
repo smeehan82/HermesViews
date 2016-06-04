@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { RouteParams } from '@angular/router-deprecated';
+import { Component } from '@angular/core';
+import { OnActivate, Router, RouteSegment } from '@angular/router';
 
 import Taxonomy from './taxonomy';
-import TaxonomyService from './taxonomy.service';
+import { TaxonomyService } from './taxonomy.service';
 
 @Component({
-  selector: 'taxonomy-details',
   template:`
   <div *ngIf="taxonomy">
-    <h2>{{taxonomy.name}} details!</h2>
+    <h4>{{taxonomy.name}} details!</h4>
     <button (click)="goBack()">Back</button>
     <div>
       <label>id: </label>{{taxonomy.id}}
@@ -18,24 +17,36 @@ import TaxonomyService from './taxonomy.service';
     </div>
   </div>
 `,
-  providers: [TaxonomyService]
 })
 
-export default class PageDetailsComponent implements OnInit {
+export default class TaxonomyDetailsComponent implements OnActivate {
   taxonomy: Taxonomy;
+  private curSegment: RouteSegment;
 
   constructor(
     private taxonomyService: TaxonomyService,
-    private routeParams: RouteParams) {
-  }
+    private router: Router
+    ) { }
 
-  ngOnInit() {
-    let id =+ this.routeParams.get('id');
-    this.taxonomyService.getTaxonomy(id)
-      .then(taxonomy => this.taxonomy = taxonomy);
+  routerOnActivate(curr: RouteSegment) {
+    this.curSegment = curr;
+
+    let id = +curr.getParam('id');
+    this.taxonomyService.getTaxonomy(id).then(taxonomy => {
+      if (taxonomy) {
+        this.taxonomy = taxonomy;
+      } else { // id not found
+        this.gotoTaxonomies();
+      }
+    });
+  }
+  
+  gotoTaxonomies() {
+    // Relative link
+    this.router.navigate(['../'], this.curSegment);
   }
 
   goBack() {
-    window.history.back();
+    this.gotoTaxonomies();
   }
 }

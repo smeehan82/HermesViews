@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import Taxonomy from './taxonomy';
 
 @Injectable()
-export default class TaxonomyService {
+export class TaxonomyService {
   getTaxonomys() {
     return Promise.resolve(TAXONOMY);
   }

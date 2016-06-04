@@ -1,41 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Component } from '@angular/core';
+import { OnActivate, Router, RouteSegment, RouteTree } from '@angular/router';
+import { Logger } from '../Logging';
 
 import Taxonomy from './taxonomy';
-import TaxonomyService from './taxonomy.service';
+import { TaxonomyService } from './taxonomy.service';
 
 @Component({
-  selector: 'taxonomy-list',
   template: `
-  <div class="grid grid-pad">
-    <h2>Taxonomys Available.</h2>
-  </div>
   <div class="taxonomy-list">
     <div *ngFor="let item of taxonomys">
       <button (click)="gotoDetail(item)"> {{item.name}} </button>
     </div>
   </div>
 `,
-  providers: [TaxonomyService]
 })
 
-export default class TaxonomyListComponent {
+export default class TaxonomyListComponent implements OnActivate {
   taxonomys: Taxonomy[];
+  private currSegment: RouteSegment;
 
   constructor(
     private taxonomyService: TaxonomyService,
-    private router: Router) { }
+    private router: Router,
+    private logger: Logger ) { }
 
-  getTaxonomys() {
+  routerOnActivate(curr: RouteSegment, prev: RouteSegment, currTree: RouteTree) {
+    this.currSegment = curr;
     this.taxonomyService.getTaxonomys().then(taxonomys => this.taxonomys = taxonomys);
-  }
-
-  ngOnInit() {
-    this.getTaxonomys();
   }
   
   gotoDetail(taxonomy: Taxonomy) {
-    let link = ['TaxonomyDetails', { id: taxonomy.id }];
-    this.router.navigate(link);
+    this.logger.log(this.currSegment);
+    this.router.navigate([`./${taxonomy.id}`], this.currSegment);
   }
 }
