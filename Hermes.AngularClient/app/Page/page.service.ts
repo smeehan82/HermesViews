@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import Page from './page';
 
 @Injectable()
-export default class PageService {
+export class PageService {
   getPages() {
     return Promise.resolve(PAGES);
   }
