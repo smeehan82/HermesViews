@@ -1,41 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Component } from '@angular/core';
+import { OnActivate, Router, RouteSegment, RouteTree } from '@angular/router';
+import { Logger } from '../Logging';
 
 import ContentType from './content-type';
-import ContentTypesService from './content-types.service';
+import { ContentTypesService } from './content-types.service';
 
 @Component({
-  selector: 'content-type-list',
   template:`
-  <div class="grid grid-pad">
-    <h2>Content Types Available.</h2>
-  </div>
   <div class="content-types">
     <div *ngFor="let item of contentTypes">
       <button (click)="gotoDetail(item)"> {{item.name}} </button>
     </div>
   </div>
 `,
-  providers: [ContentTypesService]
 })
 
-export default class ContentTypeListComponent {
+export default class ContentTypeListComponent implements OnActivate {
   contentTypes: ContentType[];
+  private currSegment: RouteSegment;
 
   constructor(
     private contentTypesService: ContentTypesService,
-    private router: Router) { }
-
-  getContentTypes() {
+    private router: Router,
+    private logger: Logger ) { }
+  
+  routerOnActivate(curr: RouteSegment, prev: RouteSegment, currTree: RouteTree) {
+    this.currSegment = curr;
     this.contentTypesService.getContentTypes().then(contentTypes => this.contentTypes = contentTypes);
   }
-
-  ngOnInit() {
-    this.getContentTypes();
-  }
-  
+    
   gotoDetail(contentType: ContentType) {
-    let link = ['ContentTypeDetails', { id: contentType.id }];
-    this.router.navigate(link);
+    this.logger.log(this.currSegment);
+    this.router.navigate([`/content`, contentType.id]);
+    this.logger.log(contentType)
   }
 }
